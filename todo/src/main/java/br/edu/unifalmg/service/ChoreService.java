@@ -8,8 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChoreService {
 
@@ -142,6 +144,16 @@ public class ChoreService {
         }
     }
 
-    private final Predicate<List<Chore>> isChoreListEmpty = choreList -> choreList.isEmpty();
+    public String printChores () {
+        if (isChoreListEmpty.test(getChores()))
+        {
+            throw new EmptyChoreListException("No chores at the moment");
+        }
+        String allChores = getChores().stream().map(Chore::toString).collect(Collectors.joining("\n"));
+        System.out.println(allChores);
+        return allChores;
+    }
+
+    private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
 
 }

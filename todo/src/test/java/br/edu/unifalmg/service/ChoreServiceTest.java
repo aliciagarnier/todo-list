@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -242,6 +243,29 @@ public class ChoreServiceTest {
                 () -> assertEquals("Chore #01", response.get(0).getDescription()),
                 () -> assertEquals(Boolean.FALSE, response.get(0).getIsCompleted())
         );
+    }
+
+
+    @Test
+    @DisplayName("#displayAllChores > When the list is not empty > Display all chores")
+     void printChoresWhenTheListIsNotEmptyPrintAllChores() {
+        ChoreService service = new ChoreService();
+
+        service.getChores().add(new Chore("Chore #01", Boolean.TRUE, LocalDate.now().plusDays(1)));
+        service.getChores().add(new Chore("Chore #02", Boolean.FALSE, LocalDate.now().plusDays(2)));
+
+        String expectedOutput = "Description: Chore #01 Deadline: " + LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " Status: Completed\n" +
+                "Description: Chore #02 Deadline: " + LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " Status: Not completed";
+
+        String obtainedOutput = service.printChores();
+
+        assertEquals(expectedOutput, obtainedOutput);
+    }
+    @Test
+    @DisplayName("#displayAllChores > When the list is empty > throw EmptyChoreListException")
+    void printChoresWhenTheListIsEmptyThrowAnException() {
+        ChoreService service = new ChoreService();
+        assertThrows(EmptyChoreListException.class, service::printChores);
     }
 
 }
