@@ -369,5 +369,17 @@ public class ChoreServiceTest {
     }
 
 
+    @Test
+    @DisplayName("Testing the json file")
+    void tryingToReadJsonFile() {
+        ChoreService service = new ChoreService();
+
+        service.ReadJsonFile();
+        service.printChores();
+
+        assertEquals(3, service.getChores().size());
+    }
+
+
 
 }

@@ -1,0 +1,32 @@
+[
+    {
+        "description": "Voltar para a cidade natal",
+        "isCompleted": true,
+        "deadline":
+        [
+            2023,
+            10,
+            7
+        ]
+    },
+    {
+        "description": "Assistir a aula de Gestao do Ciclo de Vida da Aplicacao",
+        "isCompleted": false,
+        "deadline":
+        [
+            2023,
+            10,
+            11
+        ]
+    },
+    {
+        "description": "Entregar a atividade proposta",
+        "isCompleted": false,
+        "deadline":
+        [
+            2023,
+            10,
+            18
+        ]
+    }
+]

@@ -4,17 +4,22 @@ import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.enumerator.ChoreFilter;
 import br.edu.unifalmg.exception.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class ChoreService {
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+
+public class ChoreService  {
     private List<Chore> chores;
 
     public ChoreService() {
@@ -226,6 +231,22 @@ public class ChoreService {
     private boolean isChoreExist (String description, LocalDate deadline) {
        return getChores().stream().anyMatch((chore) -> chore.getDescription().equals(description) && chore.getDeadline().isEqual(deadline));
     }
+
+    public void ReadJsonFile () {
+
+        File jsonfile = new File("src/main/resources/chores.json");
+
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        try {
+            this.chores = objectMapper.readValue(jsonfile, new TypeReference<List<Chore>>(){});
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+    }
+
 
 
 
