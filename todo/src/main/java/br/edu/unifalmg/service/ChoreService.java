@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import br.edu.unifalmg.repository.ChoreRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -22,9 +23,18 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class ChoreService  {
     private List<Chore> chores;
 
-    public ChoreService() {
+    private ObjectMapper objectMapper;
+
+    private ChoreRepository repository;
+
+    public ChoreService(ChoreRepository choreRepository) {
+
         chores = new ArrayList<>();
+        objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        this.repository = choreRepository;
     }
+
+    public ChoreService () {}
 
     /**
      * Method to add a new chore
@@ -227,25 +237,29 @@ public class ChoreService  {
         ).collect(Collectors.toList());
     }
 
+    /**
+     * Load the chores from the repository.
+     * The repository can return NULL if no chores are found.
+     */
+    public void loadChores() {
+        this.chores = repository.load();
+    }
+
+    /**
+     * Save the chores into the file
+     *
+     * @return TRUE, if the saved was completed and <br/>
+     *         FALSE, when the save fails
+     */
+    public Boolean saveChores() {
+        return repository.save(this.chores);
+    }
+
     private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
     private boolean isChoreExist (String description, LocalDate deadline) {
        return getChores().stream().anyMatch((chore) -> chore.getDescription().equals(description) && chore.getDeadline().isEqual(deadline));
     }
 
-    public void ReadJsonFile () {
-
-        File jsonfile = new File("src/main/resources/chores.json");
-
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-
-        try {
-            this.chores = objectMapper.readValue(jsonfile, new TypeReference<List<Chore>>(){});
-
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-    }
 
 
 
