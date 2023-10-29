@@ -394,8 +394,7 @@ public class ChoreServiceTest {
             add(new Chore("Chore #02", Boolean.TRUE, LocalDate.now().minusDays(2)));
         }});
         service.loadChores();
-//        int size = service.getChores().size();
-//        assertEquals(2, size);
+
         List<Chore> loadedChores = service.getChores();
         assertAll(
                 () -> assertEquals(2, loadedChores.size()),
@@ -416,6 +415,20 @@ public class ChoreServiceTest {
         List<Chore> loadChores = service.getChores();
         assertTrue(loadChores.isEmpty());
     }
+    @Test
+    @DisplayName("#saveChores > When the chores are saved > Return true")
+    void saveChoresWhenTheChoresAreSavedUpdatedTheFileReturnTrue() {
+        service.addChore("Chore #1", LocalDate.now());
+        service.addChore("Chore #2", LocalDate.now().plusDays(1));
 
+        Mockito.when(repository.save(service.getChores())).thenReturn(Boolean.TRUE);
+        assertTrue(service.saveChores());
+    }
+    @Test
+    @DisplayName("#saveChores > When chores are not saved > Return false")
+    void saveChoresWhenTheChoresWhenTheChoresAreNotSavedReturnFalse () {
+        Mockito.when(repository.save(service.getChores())).thenReturn(Boolean.FALSE);
+        assertFalse(service.saveChores());
+    }
 
 }
