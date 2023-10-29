@@ -45,9 +45,11 @@ public class FileChoreRepository implements ChoreRepository  {
     @Override
     public boolean save(List<Chore> chores) {
         try {
-            File file = new File("/home/alicia/Área de Trabalho/Java/todo-list/todo/src/main/resources/chores.json");
+
+            File file = new File("todo/src/main/resources/chores.json");
             objectMapper.writeValue(file, chores);
             return true;
+
         } catch (IOException exception) {
             System.out.println("Unable to write the chores on the file.");
         }

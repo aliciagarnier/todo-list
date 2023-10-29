@@ -34,7 +34,9 @@ public class ChoreService  {
         this.repository = choreRepository;
     }
 
-    public ChoreService () {}
+    public ChoreService () {
+        this.chores = new ArrayList<>();
+    }
 
     /**
      * Method to add a new chore
@@ -242,7 +244,7 @@ public class ChoreService  {
      * The repository can return NULL if no chores are found.
      */
     public void loadChores() {
-        this.chores = repository.load();
+    this.chores = repository.load();
     }
 
     /**
