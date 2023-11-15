@@ -84,7 +84,7 @@ public class FileChoreRepositoryTest {
         Mockito.doNothing().when(mapper).writeValue(new File("todo/src/main/resources/chores.json"),
                 service.getChores());
 
-        assertTrue(repository.save(service.getChores()));
+        assertTrue(repository.saveAll(service.getChores()));
 
         Mockito.when(
                 mapper.readValue(new File("todo/src/main/resources/chores.json"), Chore[].class)
@@ -111,7 +111,7 @@ public class FileChoreRepositoryTest {
         Mockito.doNothing().when(mapper).writeValue(new File("todo/src/main/resources/chores.json"),
                 service.getChores());
 
-        assertTrue(repository.save(service.getChores()));
+        assertTrue(repository.saveAll(service.getChores()));
 
         Mockito.when(
                 mapper.readValue(new File("todo/src/main/resources/chores.json"), Chore[].class)

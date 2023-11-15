@@ -14,8 +14,11 @@ dependencies {
     implementation 'org.jetbrains:annotations:24.0.0'
     implementation 'com.github.lbovolini:object-mapper:1.1.68'
     implementation 'com.konghq:unirest-objectmapper-jackson:4.0.0-RC7'
+    implementation 'mysql:mysql-connector-java:8.0.33'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+
 
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
