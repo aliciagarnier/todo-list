@@ -2,14 +2,10 @@ package br.edu.unifalmg.repository.impl;
 
 import br.edu.unifalmg.domain.Chore;
 import br.edu.unifalmg.repository.ChoreRepository;
-import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +14,6 @@ import java.util.List;
 public class FileChoreRepository implements ChoreRepository  {
 
     private ObjectMapper objectMapper;
-
     public FileChoreRepository () {
 
         objectMapper = new ObjectMapper().findAndRegisterModules();
@@ -43,9 +38,19 @@ public class FileChoreRepository implements ChoreRepository  {
     }
 
     @Override
-    public boolean save(List<Chore> chores) {
-        try {
+    public boolean save(Chore chore) {
+        throw new RuntimeException("Operation not supported yet.");
+    }
 
+    @Override
+    public boolean update(Chore chore) {
+        throw new RuntimeException("Operation not supported yet.");
+
+    }
+
+    @Override
+    public boolean saveAll(List<Chore> chores) {
+        try {
             File file = new File("todo/src/main/resources/chores.json");
             objectMapper.writeValue(file, chores);
             return true;

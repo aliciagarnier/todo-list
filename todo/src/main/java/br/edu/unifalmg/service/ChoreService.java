@@ -18,9 +18,17 @@ import br.edu.unifalmg.repository.ChoreRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.Getter;
 
 
 public class ChoreService  {
+    /**
+     * -- GETTER --
+     *  Get the added chores.
+     *
+     * @return List<Chore> The chores added until now.
+     */
+    @Getter
     private List<Chore> chores;
 
     private ObjectMapper objectMapper;
@@ -88,18 +96,9 @@ public class ChoreService  {
 //         chore.setDeadline(deadline);
 //         chore.setIsCompleted(Boolean.FALSE);
 
-
         chores.add(chore);
+        repository.save(chore);
         return chore;
-    }
-
-    /**
-     * Get the added chores.
-     *
-     * @return List<Chore> The chores added until now.
-     */
-    public List<Chore> getChores() {
-        return this.chores;
     }
 
     /**
@@ -238,13 +237,12 @@ public class ChoreService  {
            }
         ).collect(Collectors.toList());
     }
-
     /**
      * Load the chores from the repository.
      * The repository can return NULL if no chores are found.
      */
     public void loadChores() {
-    this.chores = repository.load();
+        this.chores = repository.load();
     }
 
     /**
@@ -254,7 +252,18 @@ public class ChoreService  {
      *         FALSE, when the save fails
      */
     public Boolean saveChores() {
-        return repository.save(this.chores);
+        return repository.saveAll(this.chores);
+    }
+
+    /**
+     * Update a chore in the database.
+     * @return TRUE, if the update was successful and FALSE when the update fails.
+     */
+    public Boolean updateChore(Chore chore) {
+        if(!Objects.isNull(chore)) {
+            return repository.update(chore);
+        }
+         return Boolean.FALSE;
     }
 
     private final Predicate<List<Chore>> isChoreListEmpty = List::isEmpty;
